@@ -88,13 +88,13 @@ class Summary extends Collector
      * @param array $values
      * @return float
      */
-    public static function getQuantile($percentile, $values): float
+    public static function getQuantile($percentile, $values)
     {
         sort($values);
         $index = (int)($percentile * count($values));
         return (floor($index) === $index)
             ? ($values[$index - 1] + $values[$index]) / 2
-            : $result = $values[(int)floor($index)];
+            : $values[(int)floor($index)];
     }
 
     /**
