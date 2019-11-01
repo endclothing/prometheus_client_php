@@ -56,7 +56,7 @@ class Redis implements Adapter
         $this->redis = new \Redis();
     }
 
-    public static function withRedis(\Redis $redis): self
+    public static function fromExistingConnection(\Redis $redis): self
     {
         $self = new self();
         $self->connectionInitialized = true;
