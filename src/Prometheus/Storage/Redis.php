@@ -42,6 +42,11 @@ class Redis implements Adapter
     private $redis;
 
     /**
+     * @var boolean
+     */
+    private $connectionInitialized = false;
+
+    /**
      * Redis constructor.
      * @param array $options
      */
@@ -49,6 +54,15 @@ class Redis implements Adapter
     {
         $this->options = array_merge(self::$defaultOptions, $options);
         $this->redis = new \Redis();
+    }
+
+    public static function withRedis(\Redis $redis): self
+    {
+        $self = new self();
+        $self->connectionInitialized = true;
+        $self->redis = $redis;
+
+        return $self;
     }
 
     /**
@@ -99,6 +113,10 @@ class Redis implements Adapter
      */
     private function openConnection(): void
     {
+        if ($this->connectionInitialized) {
+            return;
+        }
+
         $connectionStatus = $this->connectToServer();
         if ($connectionStatus === false) {
             throw new StorageException("Can't connect to Redis server", 0);
