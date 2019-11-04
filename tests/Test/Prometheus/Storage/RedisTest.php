@@ -22,4 +22,16 @@ class RedisTest extends TestCase
         $redis->flushRedis();
     }
 
+    /**
+     * @test
+     */
+    public function withExistingConnection()
+    {
+        $connection = new \Redis;
+
+        $connection->connect(REDIS_HOST);
+
+        $redis = Redis::fromExistingConnection($connection);
+        $redis->flushRedis();
+    }
 }
