@@ -208,34 +208,6 @@ LUA
         unset($metaData['value']);
         unset($metaData['labelValues']);
         unset($metaData['command']);
-//         $this->redis->eval(
-//             <<<LUA
-// local result = redis.call(KEYS[2], KEYS[1], KEYS[4], ARGV[1])
-
-// if KEYS[2] == 'hSet' then
-//     if result == 1 then
-//         redis.call('hSet', KEYS[1], '__meta', ARGV[2])
-//         redis.call('sAdd', KEYS[3], KEYS[1])
-//     end
-// else
-//     if result == ARGV[1] then
-//         redis.call('hSet', KEYS[1], '__meta', ARGV[2])
-//         redis.call('sAdd', KEYS[3], KEYS[1])
-//     end
-// end
-// LUA
-//             ,
-//             [
-//                 $this->toMetricKey($data),
-//                 $this->getRedisCommand($data['command']),
-//                 self::$prefix . Gauge::TYPE . self::PROMETHEUS_METRIC_KEYS_SUFFIX,
-//                 json_encode($data['labelValues']),
-//                 $data['value'],
-//                 json_encode($metaData),
-//             ],
-//             4
-//         );
-
         $this->redis->eval(
             <<<LUA
 local result = redis.call(ARGV[1], KEYS[1], ARGV[2], ARGV[3])

@@ -109,7 +109,6 @@ class Histogram extends Collector
                 'labelNames' => $this->getLabelNames(),
                 'labelValues' => $labels,
                 'buckets' => $this->buckets,
-                'command' => Adapter::COMMAND_INCREMENT_FLOAT,
             ]
         );
     }
