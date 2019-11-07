@@ -25,13 +25,13 @@ class RedisTest extends TestCase
     /**
      * @test
      */
-    public function withExistingConnection()
+    public function itShouldThrowExceptionWhenInjectedRedisIsNotConnected()
     {
         $connection = new \Redis;
 
-        $connection->connect(REDIS_HOST);
+        $this->expectException(StorageException::class);
+        $this->expectExceptionMessage('Connection to Redis server not established');
 
-        $redis = Redis::fromExistingConnection($connection);
-        $redis->flushRedis();
+        Redis::fromExistingConnection($connection);
     }
 }
