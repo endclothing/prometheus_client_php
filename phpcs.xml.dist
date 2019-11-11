@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+    <description>KASKO Coding standard.</description>
+
+    <file>src/</file>
+    <file>tests/</file>
+    <file>examples/</file>
+
+    <exclude-pattern type="relative">vendor/*</exclude-pattern>
+
+    <arg value="nps"/>
+
+    <rule ref="PSR12"/>
+</ruleset>
