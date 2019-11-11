@@ -1,6 +1,7 @@
 {
     "name": "endclothing/prometheus_client_php",
     "description": "Prometheus instrumentation library for PHP applications.",
+    "type": "library",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -33,5 +34,14 @@
         "psr-0": {
             "Test\\Prometheus\\": "tests/"
         }
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true
 }
