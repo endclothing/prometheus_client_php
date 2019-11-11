@@ -99,7 +99,7 @@ class PushGateway
         }
         $response = $this->client->request($method, $url, $requestOptions);
         $statusCode = $response->getStatusCode();
-        if ($statusCode !== 200 && $statusCode !== 202) {
+        if (!in_array($statusCode, [200, 202])) {
             $msg = "Unexpected status code "
                 . $statusCode
                 . " received from push gateway "
