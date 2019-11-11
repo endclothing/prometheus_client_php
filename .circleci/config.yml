@@ -79,7 +79,3 @@ workflows:
     jobs:
       - php73
       - php73-lowest
-      - test:
-          requires:
-            - php73
-            - php73-lowest
