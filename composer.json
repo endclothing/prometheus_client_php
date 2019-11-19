@@ -19,7 +19,7 @@
         "symfony/polyfill-apcu": "^1.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^8.0"
     },
     "suggest": {
         "ext-redis": "Required if using Redis.",

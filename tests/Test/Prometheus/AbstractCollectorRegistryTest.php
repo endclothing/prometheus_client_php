@@ -10,6 +10,8 @@ use Prometheus\Histogram;
 use Prometheus\RenderTextFormat;
 use Prometheus\Storage\Adapter;
 use Prometheus\Storage\Redis;
+use Prometheus\Exception\MetricsRegistrationException;
+use Prometheus\Exception\MetricNotFoundException;
 
 abstract class AbstractCollectorRegistryTest extends TestCase
 {
@@ -23,7 +25,7 @@ abstract class AbstractCollectorRegistryTest extends TestCase
      */
     private $renderer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->configureAdapter();
         $this->renderer = new RenderTextFormat();
@@ -206,77 +208,84 @@ EOF
 
     /**
      * @test
-     * @expectedException \Prometheus\Exception\MetricsRegistrationException
      */
     public function itShouldForbidRegisteringTheSameCounterTwice()
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerCounter('foo', 'metric', 'help');
+
+        $this->expectException(MetricsRegistrationException::class);
         $registry->registerCounter('foo', 'metric', 'help');
     }
 
     /**
      * @test
-     * @expectedException \Prometheus\Exception\MetricsRegistrationException
      */
     public function itShouldForbidRegisteringTheSameCounterWithDifferentLabels()
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerCounter('foo', 'metric', 'help', ["foo", "bar"]);
+
+        $this->expectException(MetricsRegistrationException::class);
         $registry->registerCounter('foo', 'metric', 'help', ["spam", "eggs"]);
     }
 
     /**
      * @test
-     * @expectedException \Prometheus\Exception\MetricsRegistrationException
      */
     public function itShouldForbidRegisteringTheSameHistogramTwice()
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerHistogram('foo', 'metric', 'help');
+
+        $this->expectException(MetricsRegistrationException::class);
         $registry->registerHistogram('foo', 'metric', 'help');
     }
 
     /**
      * @test
-     * @expectedException \Prometheus\Exception\MetricsRegistrationException
      */
     public function itShouldForbidRegisteringTheSameHistogramWithDifferentLabels()
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerCounter('foo', 'metric', 'help', ["foo", "bar"]);
+
+        $this->expectException(MetricsRegistrationException::class);
         $registry->registerCounter('foo', 'metric', 'help', ["spam", "eggs"]);
     }
 
     /**
      * @test
-     * @expectedException \Prometheus\Exception\MetricsRegistrationException
      */
     public function itShouldForbidRegisteringTheSameGaugeTwice()
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerGauge('foo', 'metric', 'help');
+
+        $this->expectException(MetricsRegistrationException::class);
         $registry->registerGauge('foo', 'metric', 'help');
     }
 
     /**
      * @test
-     * @expectedException \Prometheus\Exception\MetricsRegistrationException
      */
     public function itShouldForbidRegisteringTheSameGaugeWithDifferentLabels()
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerGauge('foo', 'metric', 'help', ["foo", "bar"]);
+
+        $this->expectException(MetricsRegistrationException::class);
         $registry->registerGauge('foo', 'metric', 'help', ["spam", "eggs"]);
     }
 
     /**
      * @test
-     * @expectedException \Prometheus\Exception\MetricNotFoundException
      */
     public function itShouldThrowAnExceptionWhenGettingANonExistentMetric()
     {
         $registry = new CollectorRegistry($this->adapter);
+
+        $this->expectException(MetricNotFoundException::class);
         $registry->getGauge("not_here", "go_away");
     }
 
