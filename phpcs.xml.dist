@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <ruleset name="PHP_CodeSniffer">
-    <description>KASKO Coding standard.</description>
-
     <file>src/</file>
     <file>tests/</file>
     <file>examples/</file>
