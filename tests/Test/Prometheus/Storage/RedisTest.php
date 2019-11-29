@@ -23,4 +23,17 @@ class RedisTest extends TestCase
         $redis->collect();
         $redis->flushRedis();
     }
+
+    /**
+     * @test
+     */
+    public function itShouldThrowExceptionWhenInjectedRedisIsNotConnected()
+    {
+        $connection = new \Redis();
+
+        $this->expectException(StorageException::class);
+        $this->expectExceptionMessage('Connection to Redis server not established');
+
+        Redis::fromExistingConnection($connection);
+    }
 }
