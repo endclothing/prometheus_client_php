@@ -57,7 +57,6 @@ class CounterTest extends TestCase
 
     /**
      * @test
-     * @requires extension apc
      */
     public function itShouldIncreaseWithLabelsWithAPC()
     {
@@ -107,7 +106,6 @@ class CounterTest extends TestCase
 
     /**
      * @test
-     * @requires extension apc
      */
     public function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefinedWithAPC()
     {
@@ -157,7 +155,6 @@ class CounterTest extends TestCase
 
     /**
      * @test
-     * @requires extension apc
      */
     public function itShouldIncreaseTheCounterByAnArbitraryIntegerWithAPC()
     {
@@ -207,7 +204,6 @@ class CounterTest extends TestCase
 
     /**
      * @test
-     * @requires extension apc
      */
     public function itShouldRejectInvalidMetricsNamesWithAPC()
     {
@@ -257,7 +253,6 @@ class CounterTest extends TestCase
 
     /**
      * @test
-     * @requires extension apc
      */
     public function itShouldRejectInvalidLabelNamesWithAPC()
     {
@@ -311,7 +306,6 @@ class CounterTest extends TestCase
     /**
      * @test
      * @dataProvider labelValuesDataProvider
-     * @requires extension apc
      */
     public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValuesWithAPC($value)
     {

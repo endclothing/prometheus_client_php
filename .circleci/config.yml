@@ -31,7 +31,8 @@ unit-config: &unit-config
         name: Install PHP extensions
         command: |
             printf '\n' | sudo pecl install redis
-            sudo docker-php-ext-enable redis
+            printf '\n' | sudo pecl install apcu
+            sudo docker-php-ext-enable redis apcu
 
     - run:
         name: Install composer packages
