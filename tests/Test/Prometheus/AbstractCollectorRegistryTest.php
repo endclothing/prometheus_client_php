@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Test\Prometheus;
-
 
 use PHPUnit\Framework\TestCase;
 use Prometheus\CollectorRegistry;
@@ -326,5 +324,5 @@ EOF
     }
 
 
-    public abstract function configureAdapter();
+    abstract public function configureAdapter();
 }

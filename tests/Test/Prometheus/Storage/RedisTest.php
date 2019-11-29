@@ -23,5 +23,4 @@ class RedisTest extends TestCase
         $redis->collect();
         $redis->flushRedis();
     }
-
 }
