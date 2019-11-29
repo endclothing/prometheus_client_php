@@ -13,7 +13,7 @@ class CounterWithPrefixTest extends AbstractCounterTest
 {
     public function configureAdapter()
     {
-        $connection = new \Redis;
+        $connection = new \Redis();
         $connection->connect(REDIS_HOST);
 
         $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
