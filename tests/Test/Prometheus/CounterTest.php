@@ -19,10 +19,21 @@ class CounterTest extends TestCase
     /**
      * @test
      */
-    public function itShouldIncreaseWithLabelsUsingRedis()
+    public function itShouldIncreaseWithLabelsWithRedis()
     {
         $adapter = new Redis(['host' => REDIS_HOST]);
         $adapter->flushRedis();
+
+        $this->itShouldIncreaseWithLabels($adapter);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldIncreaseWithLabelsWithInMemory()
+    {
+        $adapter = new InMemory();
+        $adapter->flushMemory();
 
         $this->itShouldIncreaseWithLabels($adapter);
     }
@@ -41,10 +52,32 @@ class CounterTest extends TestCase
     /**
      * @test
      */
+    public function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefinedWithInMemory()
+    {
+        $adapter = new InMemory();
+        $adapter->flushMemory();
+
+        $this->itShouldIncreaseWithoutLabelWhenNoLabelsAreDefined($adapter);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldIncreaseTheCounterByAnArbitraryIntegerWithRedis()
     {
         $adapter = new Redis(['host' => REDIS_HOST]);
         $adapter->flushRedis();
+
+        $this->itShouldIncreaseTheCounterByAnArbitraryInteger($adapter);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldIncreaseTheCounterByAnArbitraryIntegerWithInMemory()
+    {
+        $adapter = new InMemory();
+        $adapter->flushMemory();
 
         $this->itShouldIncreaseTheCounterByAnArbitraryInteger($adapter);
     }
@@ -63,10 +96,32 @@ class CounterTest extends TestCase
     /**
      * @test
      */
+    public function itShouldRejectInvalidMetricsNamesWithInMemory()
+    {
+        $adapter = new InMemory();
+        $adapter->flushMemory();
+
+        $this->itShouldRejectInvalidMetricsNames($adapter);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldRejectInvalidLabelNamesWithRedis()
     {
         $adapter = new Redis(['host' => REDIS_HOST]);
         $adapter->flushRedis();
+
+        $this->itShouldRejectInvalidLabelNames($adapter);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldRejectInvalidLabelNamesWithInMemory()
+    {
+        $adapter = new InMemory();
+        $adapter->flushMemory();
 
         $this->itShouldRejectInvalidLabelNames($adapter);
     }
@@ -79,6 +134,18 @@ class CounterTest extends TestCase
     {
         $adapter = new Redis(['host' => REDIS_HOST]);
         $adapter->flushRedis();
+
+        $this->isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($adapter, $value);
+    }
+
+    /**
+     * @test
+     * @dataProvider labelValuesDataProvider
+     */
+    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValuesWithRedis($value)
+    {
+        $adapter = new InMemory();
+        $adapter->flushMemory();
 
         $this->isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($adapter, $value);
     }
