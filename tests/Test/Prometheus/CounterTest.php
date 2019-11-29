@@ -10,6 +10,7 @@ use Prometheus\Sample;
 use Prometheus\Storage\Redis;
 use Prometheus\Storage\Adapter;
 use Prometheus\Storage\InMemory;
+use Prometheus\Storage\APC;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
@@ -30,10 +31,38 @@ class CounterTest extends TestCase
     /**
      * @test
      */
+    public function itShouldIncreaseWithLabelsWithRedisWithPrefix()
+    {
+        $connection = new \Redis();
+        $connection->connect(REDIS_HOST);
+
+        $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
+
+        $adapter = Redis::fromExistingConnection($connection);
+        $adapter->flushRedis();
+
+        $this->itShouldIncreaseWithLabels($adapter);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldIncreaseWithLabelsWithInMemory()
     {
         $adapter = new InMemory();
         $adapter->flushMemory();
+
+        $this->itShouldIncreaseWithLabels($adapter);
+    }
+
+    /**
+     * @test
+     * @requires extension apc
+     */
+    public function itShouldIncreaseWithLabelsWithAPC()
+    {
+        $adapter = new APC();
+        $adapter->flushAPC();
 
         $this->itShouldIncreaseWithLabels($adapter);
     }
@@ -52,10 +81,38 @@ class CounterTest extends TestCase
     /**
      * @test
      */
+    public function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefinedWithRedisWithPrefix()
+    {
+        $connection = new \Redis();
+        $connection->connect(REDIS_HOST);
+
+        $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
+
+        $adapter = Redis::fromExistingConnection($connection);
+        $adapter->flushRedis();
+
+        $this->itShouldIncreaseWithoutLabelWhenNoLabelsAreDefined($adapter);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefinedWithInMemory()
     {
         $adapter = new InMemory();
         $adapter->flushMemory();
+
+        $this->itShouldIncreaseWithoutLabelWhenNoLabelsAreDefined($adapter);
+    }
+
+    /**
+     * @test
+     * @requires extension apc
+     */
+    public function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefinedWithAPC()
+    {
+        $adapter = new APC();
+        $adapter->flushAPC();
 
         $this->itShouldIncreaseWithoutLabelWhenNoLabelsAreDefined($adapter);
     }
@@ -74,10 +131,38 @@ class CounterTest extends TestCase
     /**
      * @test
      */
+    public function itShouldIncreaseTheCounterByAnArbitraryIntegerWithRedisWithPrefix()
+    {
+        $connection = new \Redis();
+        $connection->connect(REDIS_HOST);
+
+        $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
+
+        $adapter = Redis::fromExistingConnection($connection);
+        $adapter->flushRedis();
+
+        $this->itShouldIncreaseTheCounterByAnArbitraryInteger($adapter);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldIncreaseTheCounterByAnArbitraryIntegerWithInMemory()
     {
         $adapter = new InMemory();
         $adapter->flushMemory();
+
+        $this->itShouldIncreaseTheCounterByAnArbitraryInteger($adapter);
+    }
+
+    /**
+     * @test
+     * @requires extension apc
+     */
+    public function itShouldIncreaseTheCounterByAnArbitraryIntegerWithAPC()
+    {
+        $adapter = new APC();
+        $adapter->flushAPC();
 
         $this->itShouldIncreaseTheCounterByAnArbitraryInteger($adapter);
     }
@@ -96,10 +181,38 @@ class CounterTest extends TestCase
     /**
      * @test
      */
+    public function itShouldRejectInvalidMetricsNamesWithRedisWithPrefix()
+    {
+        $connection = new \Redis();
+        $connection->connect(REDIS_HOST);
+
+        $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
+
+        $adapter = Redis::fromExistingConnection($connection);
+        $adapter->flushRedis();
+
+        $this->itShouldRejectInvalidMetricsNames($adapter);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldRejectInvalidMetricsNamesWithInMemory()
     {
         $adapter = new InMemory();
         $adapter->flushMemory();
+
+        $this->itShouldRejectInvalidMetricsNames($adapter);
+    }
+
+    /**
+     * @test
+     * @requires extension apc
+     */
+    public function itShouldRejectInvalidMetricsNamesWithAPC()
+    {
+        $adapter = new APC();
+        $adapter->flushAPC();
 
         $this->itShouldRejectInvalidMetricsNames($adapter);
     }
@@ -118,10 +231,38 @@ class CounterTest extends TestCase
     /**
      * @test
      */
+    public function itShouldRejectInvalidLabelNamesWithRedisWithPrefix()
+    {
+        $connection = new \Redis();
+        $connection->connect(REDIS_HOST);
+
+        $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
+
+        $adapter = Redis::fromExistingConnection($connection);
+        $adapter->flushRedis();
+
+        $this->itShouldRejectInvalidLabelNames($adapter);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldRejectInvalidLabelNamesWithInMemory()
     {
         $adapter = new InMemory();
         $adapter->flushMemory();
+
+        $this->itShouldRejectInvalidLabelNames($adapter);
+    }
+
+    /**
+     * @test
+     * @requires extension apc
+     */
+    public function itShouldRejectInvalidLabelNamesWithAPC()
+    {
+        $adapter = new APC();
+        $adapter->flushAPC();
 
         $this->itShouldRejectInvalidLabelNames($adapter);
     }
@@ -142,10 +283,40 @@ class CounterTest extends TestCase
      * @test
      * @dataProvider labelValuesDataProvider
      */
-    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValuesWithRedis($value)
+    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValuesWithRedisWithPrefix($value)
+    {
+        $connection = new \Redis();
+        $connection->connect(REDIS_HOST);
+
+        $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
+
+        $adapter = Redis::fromExistingConnection($connection);
+        $adapter->flushRedis();
+
+        $this->isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($adapter, $value);
+    }
+
+    /**
+     * @test
+     * @dataProvider labelValuesDataProvider
+     */
+    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValuesWithInMemory($value)
     {
         $adapter = new InMemory();
         $adapter->flushMemory();
+
+        $this->isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($adapter, $value);
+    }
+
+    /**
+     * @test
+     * @dataProvider labelValuesDataProvider
+     * @requires extension apc
+     */
+    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValuesWithAPC($value)
+    {
+        $adapter = new APC();
+        $adapter->flushAPC();
 
         $this->isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($adapter, $value);
     }
