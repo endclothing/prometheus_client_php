@@ -7,36 +7,90 @@ use PHPUnit\Framework\TestCase;
 use Prometheus\Counter;
 use Prometheus\MetricFamilySamples;
 use Prometheus\Sample;
+use Prometheus\Storage\Redis;
 use Prometheus\Storage\Adapter;
+use Prometheus\Storage\InMemory;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
  */
-abstract class AbstractCounterTest extends TestCase
+class CounterTest extends TestCase
 {
     /**
-     * @var Adapter
+     * @test
      */
-    public $adapter;
-
-    public function setUp(): void
+    public function itShouldIncreaseWithLabelsUsingRedis()
     {
-        $this->configureAdapter();
-    }
+        $adapter = new Redis(['host' => REDIS_HOST]);
+        $adapter->flushRedis();
 
-    abstract public function configureAdapter();
+        $this->itShouldIncreaseWithLabels($adapter);
+    }
 
     /**
      * @test
      */
-    public function itShouldIncreaseWithLabels()
+    public function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefinedWithRedis()
     {
-        $counter = new Counter($this->adapter, 'test', 'some_metric', 'this is for testing', ['foo', 'bar']);
+        $adapter = new Redis(['host' => REDIS_HOST]);
+        $adapter->flushRedis();
+
+        $this->itShouldIncreaseWithoutLabelWhenNoLabelsAreDefined($adapter);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldIncreaseTheCounterByAnArbitraryIntegerWithRedis()
+    {
+        $adapter = new Redis(['host' => REDIS_HOST]);
+        $adapter->flushRedis();
+
+        $this->itShouldIncreaseTheCounterByAnArbitraryInteger($adapter);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldRejectInvalidMetricsNamesWithRedis()
+    {
+        $adapter = new Redis(['host' => REDIS_HOST]);
+        $adapter->flushRedis();
+
+        $this->itShouldRejectInvalidMetricsNames($adapter);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldRejectInvalidLabelNamesWithRedis()
+    {
+        $adapter = new Redis(['host' => REDIS_HOST]);
+        $adapter->flushRedis();
+
+        $this->itShouldRejectInvalidLabelNames($adapter);
+    }
+
+    /**
+     * @test
+     * @dataProvider labelValuesDataProvider
+     */
+    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValuesWithRedis($value)
+    {
+        $adapter = new Redis(['host' => REDIS_HOST]);
+        $adapter->flushRedis();
+
+        $this->isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($adapter, $value);
+    }
+
+    private function itShouldIncreaseWithLabels(Adapter $adapter)
+    {
+        $counter = new Counter($adapter, 'test', 'some_metric', 'this is for testing', ['foo', 'bar']);
         $counter->inc(['lalal', 'lululu']);
         $counter->inc(['lalal', 'lululu']);
         $counter->inc(['lalal', 'lululu']);
         $this->assertThat(
-            $this->adapter->collect(),
+            $adapter->collect(),
             $this->equalTo(
                 [
                     new MetricFamilySamples(
@@ -60,15 +114,12 @@ abstract class AbstractCounterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefined()
+    private function itShouldIncreaseWithoutLabelWhenNoLabelsAreDefined(Adapter $adapter)
     {
-        $counter = new Counter($this->adapter, 'test', 'some_metric', 'this is for testing');
+        $counter = new Counter($adapter, 'test', 'some_metric', 'this is for testing');
         $counter->inc();
         $this->assertThat(
-            $this->adapter->collect(),
+            $adapter->collect(),
             $this->equalTo(
                 [
                     new MetricFamilySamples(
@@ -92,16 +143,13 @@ abstract class AbstractCounterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itShouldIncreaseTheCounterByAnArbitraryInteger()
+    private function itShouldIncreaseTheCounterByAnArbitraryInteger(Adapter $adapter)
     {
-        $counter = new Counter($this->adapter, 'test', 'some_metric', 'this is for testing', ['foo', 'bar']);
+        $counter = new Counter($adapter, 'test', 'some_metric', 'this is for testing', ['foo', 'bar']);
         $counter->inc(['lalal', 'lululu']);
         $counter->incBy(123, ['lalal', 'lululu']);
         $this->assertThat(
-            $this->adapter->collect(),
+            $adapter->collect(),
             $this->equalTo(
                 [
                     new MetricFamilySamples(
@@ -125,37 +173,25 @@ abstract class AbstractCounterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itShouldRejectInvalidMetricsNames()
+    private function itShouldRejectInvalidMetricsNames(Adapter $adapter)
     {
         $this->expectException(InvalidArgumentException::class);
-        new Counter($this->adapter, 'test', 'some metric invalid metric', 'help');
+        new Counter($adapter, 'test', 'some metric invalid metric', 'help');
     }
 
-    /**
-     * @test
-     */
-    public function itShouldRejectInvalidLabelNames()
+    private function itShouldRejectInvalidLabelNames(Adapter $adapter)
     {
         $this->expectException(InvalidArgumentException::class);
-        new Counter($this->adapter, 'test', 'some_metric', 'help', ['invalid label']);
+        new Counter($adapter, 'test', 'some_metric', 'help', ['invalid label']);
     }
 
-    /**
-     * @test
-     * @dataProvider labelValuesDataProvider
-     *
-     * @param mixed $value The label value
-     */
-    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($value)
+    private function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues(Adapter $adapter, $value)
     {
         $label = 'foo';
-        $histogram = new Counter($this->adapter, 'test', 'some_metric', 'help', [$label]);
+        $histogram = new Counter($adapter, 'test', 'some_metric', 'help', [$label]);
         $histogram->inc([$value]);
 
-        $metrics = $this->adapter->collect();
+        $metrics = $adapter->collect();
         $this->assertIsArray($metrics);
         $this->assertCount(1, $metrics);
         $this->assertContainsOnlyInstancesOf(MetricFamilySamples::class, $metrics);
@@ -173,11 +209,7 @@ abstract class AbstractCounterTest extends TestCase
         }
     }
 
-    /**
-     * @return array
-     * @see isShouldAcceptArbitraryLabelValues
-     */
-    public function labelValuesDataProvider()
+    public function labelValuesDataProvider(): array
     {
         $cases = [];
         // Basic Latin

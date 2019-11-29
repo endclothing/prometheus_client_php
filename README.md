@@ -119,7 +119,7 @@ Also look at the [examples](examples).
 
 Start a Redis instance:
 ```
-docker-compose up Redis
+docker-compose up redis
 ```
 
 Run the tests:
