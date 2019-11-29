@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\Prometheus\Redis;
+namespace Prometheus\Tests\Unit\Redis;
 
 use Prometheus\Storage\Redis;
-use Test\Prometheus\AbstractGaugeTest;
+use Prometheus\Tests\Unit\AbstractGaugeTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/

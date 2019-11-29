@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\Prometheus\Redis;
+namespace Prometheus\Tests\Unit\Redis;
 
 use Prometheus\Storage\Redis;
-use Test\Prometheus\AbstractHistogramTest;
+use Prometheus\Tests\Unit\AbstractHistogramTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/

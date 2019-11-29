@@ -137,9 +137,9 @@ Just start the nginx, fpm & Redis setup with docker-compose:
 ```
 docker-compose up
 ```
+
 Pick the adapter you want to test.
 
 ```
-docker-compose run phpunit env ADAPTER=apc vendor/bin/phpunit tests/Test/
-docker-compose run phpunit env ADAPTER=redis vendor/bin/phpunit tests/Test/
+docker-compose run phpunit vendor/bin/phpunit
 ```

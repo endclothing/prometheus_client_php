@@ -18,9 +18,14 @@ class BlackBoxTest extends TestCase
      */
     private $adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = getenv('ADAPTER');
+
+        if (empty($this->adapter)) {
+            $this->markTestSkipped("No value for 'ADAPTER' environment variable.");
+        }
+
         $this->client = new Client(['base_uri' => 'http://nginx:80/']);
         $this->client->get('/examples/flush_adapter.php?adapter=' . $this->adapter);
     }
@@ -73,7 +78,7 @@ class BlackBoxTest extends TestCase
         echo "\ntime: " . ($end - $start) . "\n";
 
         $metricsResult = $this->client->get('/examples/metrics.php?adapter=' . $this->adapter);
-        $body = (string)$metricsResult->getBody();
+        $body = (string) $metricsResult->getBody();
 
         $this->assertThat($body, $this->stringContains('test_some_counter{type="blue"} ' . $sum));
     }

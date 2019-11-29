@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\Prometheus\InMemory;
+namespace Prometheus\Tests\Unit\InMemory;
 
 use Prometheus\Storage\InMemory;
-use Test\Prometheus\AbstractHistogramTest;
+use Prometheus\Tests\Unit\AbstractHistogramTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
