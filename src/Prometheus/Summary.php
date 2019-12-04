@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Prometheus;
@@ -67,7 +68,7 @@ class Summary extends Collector
      * @param double $value e.g. 123
      * @param array $labels e.g. ['status', 'opcode']
      */
-    public function observe($value, $labels = []): void
+    public function observe(float $value, array $labels = []): void
     {
         $this->assertLabelsAreDefinedCorrectly($labels);
         $this->storageAdapter->updateSummary(
@@ -88,7 +89,7 @@ class Summary extends Collector
      * @param array $values
      * @return float
      */
-    public static function getQuantile($percentile, $values)
+    public static function getQuantile(float $percentile, array $values)
     {
         sort($values);
         $index = (int)($percentile * count($values));
