@@ -252,7 +252,7 @@ class CollectorRegistry
      * @return Summary
      * @throws MetricsRegistrationException
      */
-    public function registerSummary($namespace, $name, $help, $labels = [], $quantiles = null): Summary
+    public function registerSummary(string $namespace, string $name, string $help, array $labels = [], ?array $quantiles = null): Summary
     {
         $metricIdentifier = self::metricIdentifier($namespace, $name);
         if (isset($this->summaries[$metricIdentifier])) {
@@ -275,7 +275,7 @@ class CollectorRegistry
      * @return Summary
      * @throws MetricNotFoundException
      */
-    public function getSummary($namespace, $name): Summary
+    public function getSummary(string $namespace, string $name): Summary
     {
         $metricIdentifier = self::metricIdentifier($namespace, $name);
         if (!isset($this->summaries[$metricIdentifier])) {
@@ -293,7 +293,7 @@ class CollectorRegistry
      * @return Summary
      * @throws MetricsRegistrationException
      */
-    public function getOrRegisterSummary($namespace, $name, $help, $labels = [], $quantiles = null): Summary
+    public function getOrRegisterSummary(string $namespace, string $name, string $help, array $labels = [], ?array $quantiles = null): Summary
     {
         try {
             $summary = $this->getSummary($namespace, $name);

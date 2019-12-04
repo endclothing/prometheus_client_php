@@ -25,7 +25,7 @@ class Summary extends Collector
      * @param array $quantiles
      * @throws InvalidArgumentException
      */
-    public function __construct(Adapter $adapter, $namespace, $name, $help, $labels = [], $quantiles = null)
+    public function __construct(Adapter $adapter, string $namespace, string $name, string $help, array $labels = [], ?array $quantiles = null)
     {
         parent::__construct($adapter, $namespace, $name, $help, $labels);
 
@@ -89,13 +89,13 @@ class Summary extends Collector
      * @param array $values
      * @return float
      */
-    public static function getQuantile(float $percentile, array $values)
+    public static function getQuantile(float $percentile, array $values): float
     {
         sort($values);
         $index = (int)($percentile * count($values));
         return (floor($index) === $index)
             ? ($values[$index - 1] + $values[$index]) / 2
-            : $values[(int)floor($index)];
+            : (float) $values[(int)floor($index)];
     }
 
     /**
