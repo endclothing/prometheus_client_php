@@ -210,7 +210,8 @@ LUA
         $metaData = $data;
         unset($metaData['value']);
         unset($metaData['labelValues']);
-        $this->redis->eval(<<<LUA
+        $this->redis->eval(
+            <<<LUA
 local increment = redis.call('hIncrByFloat', KEYS[1], KEYS[2], ARGV[1])
 redis.call('hIncrBy', KEYS[1], KEYS[3], 1)
 local values = redis.call('hGet', KEYS[1], KEYS[4])
@@ -418,7 +419,7 @@ LUA
             foreach ($allLabelValues as $labelValues) {
                 $valuesKey = json_encode(['b' => 'values', 'labelValues' => $labelValues]);
                 $values = !empty($raw[$valuesKey]) ? explode(',', $raw[$valuesKey]) : [];
-                foreach($summary['quantiles'] as $quantile) {
+                foreach ($summary['quantiles'] as $quantile) {
                     $summary['samples'][] = [
                         'name' => $summary['name'],
                         'labelNames' => ['quantile'],
