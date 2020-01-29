@@ -152,7 +152,7 @@ class Redis implements Adapter
                 );
             }
 
-            return $this->redis->connect($this->options['host'], $this->options['port'], $this->options['timeout']);
+            return $this->redis->connect($this->options['host'], (int)$this->options['port'], $this->options['timeout']);
         } catch (\RedisException $e) {
             return false;
         }
