@@ -1,13 +1,13 @@
 <?php
 
-namespace Test\Prometheus\APC;
+namespace Prometheus\Tests\Unit\APC;
 
 use Prometheus\Storage\APC;
-use Test\Prometheus\AbstractHistogramTest;
+use Prometheus\Tests\Unit\AbstractHistogramTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
- * @requires extension apc
+ * @requires extension apcu
  */
 class HistogramTest extends AbstractHistogramTest
 {

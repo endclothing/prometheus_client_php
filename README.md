@@ -117,29 +117,23 @@ Also look at the [examples](examples).
 * [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
 * Redis
 
-Start a Redis instance:
-```
-docker-compose up Redis
-```
+### Testing
 
 Run the tests:
 ```
-composer install
-
-# when Redis is not listening on localhost:
-# export REDIS_HOST=192.168.59.100
-./vendor/bin/phpunit
+docker-compose run phpunit ./vendor/bin/phpunit
 ```
 
-## Black box testing
+### Black box testing
 
 Just start the nginx, fpm & Redis setup with docker-compose:
 ```
 docker-compose up
 ```
+
 Pick the adapter you want to test.
 
 ```
-docker-compose run phpunit env ADAPTER=apc vendor/bin/phpunit tests/Test/
-docker-compose run phpunit env ADAPTER=redis vendor/bin/phpunit tests/Test/
+docker-compose run phpunit env ADAPTER=apc vendor/bin/phpunit tests/BlackBox/
+docker-compose run phpunit env ADAPTER=redis vendor/bin/phpunit tests/BlackBox/
 ```

@@ -8,17 +8,22 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnError="false"
-         stopOnFailure="false">
+         stopOnFailure="false"
+         failOnWarning="true">
 
     <testsuites>
         <testsuite name="Unit">
             <directory>./tests/Test/Prometheus</directory>
+            <directory suffix="Test.php">tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="BlackBox">
+            <directory suffix="Test.php">tests/BlackBox/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/Prometheus</directory>
+            <directory suffix=".php">./src/</directory>
         </whitelist>
     </filter>
 </phpunit>

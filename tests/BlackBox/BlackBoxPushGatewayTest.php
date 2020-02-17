@@ -1,6 +1,6 @@
 <?php
 
-namespace Test;
+namespace Prometheus\Tests\BlackBox;
 
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
@@ -21,12 +21,12 @@ class BlackBoxPushGatewayTest extends TestCase
         $counter = $registry->registerCounter('test', 'some_counter', 'it increases', ['type']);
         $counter->incBy(6, ['blue']);
 
-        $pushGateway = new PushGateway('pushgateway:9091');
+        $pushGateway = new PushGateway(PUSH_GATEWAY_ADDR);
         $pushGateway->push($registry, 'my_job', ['instance' => 'foo']);
 
         $httpClient = new Client();
-        $metrics = $httpClient->get("http://pushgateway:9091/metrics")->getBody()->getContents();
-        $this->assertContains(
+        $metrics = $httpClient->get(sprintf("http://%s/metrics", PUSH_GATEWAY_ADDR))->getBody()->getContents();
+        $this->assertStringContainsString(
             '# HELP test_some_counter it increases
 # TYPE test_some_counter counter
 test_some_counter{instance="foo",job="my_job",type="blue"} 6',
@@ -36,8 +36,8 @@ test_some_counter{instance="foo",job="my_job",type="blue"} 6',
         $pushGateway->delete('my_job', ['instance' => 'foo']);
 
         $httpClient = new Client();
-        $metrics = $httpClient->get("http://pushgateway:9091/metrics")->getBody()->getContents();
-        $this->assertNotContains(
+        $metrics = $httpClient->get(sprintf("http://%s/metrics", PUSH_GATEWAY_ADDR))->getBody()->getContents();
+        $this->assertStringNotContainsString(
             '# HELP test_some_counter it increases
 # TYPE test_some_counter counter
 test_some_counter{instance="foo",job="my_job",type="blue"} 6',

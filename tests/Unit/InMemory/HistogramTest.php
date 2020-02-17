@@ -1,14 +1,14 @@
 <?php
 
-namespace Test\Prometheus\InMemory;
+namespace Prometheus\Tests\Unit\InMemory;
 
 use Prometheus\Storage\InMemory;
-use Test\Prometheus\AbstractGaugeTest;
+use Prometheus\Tests\Unit\AbstractHistogramTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
  */
-class GaugeTest extends AbstractGaugeTest
+class HistogramTest extends AbstractHistogramTest
 {
 
     public function configureAdapter()

@@ -1,13 +1,13 @@
 <?php
 
-namespace Test\Prometheus\APC;
+namespace Prometheus\Tests\Unit\APC;
 
 use Prometheus\Storage\APC;
-use Test\Prometheus\AbstractCounterTest;
+use Prometheus\Tests\Unit\AbstractCounterTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
- * @requires extension apc
+ * @requires extension apcu
  */
 class CounterTest extends AbstractCounterTest
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Test\Prometheus\InMemory;
+namespace Prometheus\Tests\Unit\InMemory;
 
 use Prometheus\Storage\InMemory;
-use Test\Prometheus\AbstractCounterTest;
+use Prometheus\Tests\Unit\AbstractGaugeTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
  */
-class CounterTest extends AbstractCounterTest
+class GaugeTest extends AbstractGaugeTest
 {
 
     public function configureAdapter()

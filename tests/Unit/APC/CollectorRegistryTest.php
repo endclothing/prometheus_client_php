@@ -1,12 +1,12 @@
 <?php
 
-namespace Test\Prometheus\APC;
+namespace Prometheus\Tests\Unit\APC;
 
 use Prometheus\Storage\APC;
-use Test\Prometheus\AbstractCollectorRegistryTest;
+use Prometheus\Tests\Unit\AbstractCollectorRegistryTest;
 
 /**
- * @requires extension apc
+ * @requires extension apcu
  */
 class CollectorRegistryTest extends AbstractCollectorRegistryTest
 {

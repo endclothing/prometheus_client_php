@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\Prometheus\InMemory;
+namespace Prometheus\Tests\Unit\InMemory;
 
 use Prometheus\Storage\InMemory;
-use Test\Prometheus\AbstractCollectorRegistryTest;
+use Prometheus\Tests\Unit\AbstractCollectorRegistryTest;
 
 class CollectorRegistryTest extends AbstractCollectorRegistryTest
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\Prometheus\Redis;
+namespace Prometheus\Tests\Unit\Redis;
 
 use Prometheus\Storage\Redis;
-use Test\Prometheus\AbstractCounterTest;
+use Prometheus\Tests\Unit\AbstractCounterTest;
 
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/

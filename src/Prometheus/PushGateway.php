@@ -71,13 +71,13 @@ class PushGateway
     }
 
     /**
-     * @param CollectorRegistry $collectorRegistry
+     * @param null|CollectorRegistry $collectorRegistry
      * @param string $job
      * @param array $groupingKey
      * @param string $method
      * @throws GuzzleException
      */
-    private function doRequest(CollectorRegistry $collectorRegistry, string $job, array $groupingKey, $method): void
+    private function doRequest(?CollectorRegistry $collectorRegistry, string $job, array $groupingKey, $method): void
     {
         $url = "http://" . $this->address . "/metrics/job/" . $job;
         if (!empty($groupingKey)) {

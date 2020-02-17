@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Prometheus;
+namespace Prometheus\Tests\Unit;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;

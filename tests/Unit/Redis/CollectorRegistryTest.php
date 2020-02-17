@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\Prometheus\Redis;
+namespace Prometheus\Tests\Unit\Redis;
 
 use Prometheus\Storage\Redis;
-use Test\Prometheus\AbstractCollectorRegistryTest;
+use Prometheus\Tests\Unit\AbstractCollectorRegistryTest;
 
 /**
  * @requires extension redis
