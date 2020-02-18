@@ -177,6 +177,15 @@ class InMemory implements Adapter
 
     /**
      * @param array $data
+     * @return void
+     */
+    public function updateSummary(array $data): void
+    {
+        // TODO: Implement updateSummary() method.
+    }
+
+    /**
+     * @param array $data
      */
     public function updateGauge(array $data): void
     {

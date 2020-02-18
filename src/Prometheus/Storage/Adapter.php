@@ -27,6 +27,12 @@ interface Adapter
      * @param array $data
      * @return void
      */
+    public function updateSummary(array $data): void;
+
+    /**
+     * @param array $data
+     * @return void
+     */
     public function updateGauge(array $data): void;
 
     /**

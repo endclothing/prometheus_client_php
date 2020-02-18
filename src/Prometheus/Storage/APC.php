@@ -62,6 +62,14 @@ class APC implements Adapter
     /**
      * @param array $data
      */
+    public function updateSummary(array $data)
+    {
+        // TODO: Implement updateSummary() method.
+    }
+
+    /**
+     * @param array $data
+     */
     public function updateGauge(array $data): void
     {
         $valueKey = $this->valueKey($data);
