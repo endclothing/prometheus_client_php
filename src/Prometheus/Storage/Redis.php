@@ -176,26 +176,23 @@ class Redis implements Adapter
         unset($metaData['value']);
         unset($metaData['labelValues']);
 
-        $this->redis->eval(
-            <<<LUA
-local increment = redis.call('hIncrByFloat', KEYS[1], ARGV[1], ARGV[3])
-redis.call('hIncrBy', KEYS[1], ARGV[2], 1)
-if increment == ARGV[3] then
-    redis.call('hSet', KEYS[1], '__meta', ARGV[4])
-    redis.call('sAdd', KEYS[2], KEYS[1])
-end
-LUA
-            ,
-            [
-                $this->toMetricKey($data),
-                self::$prefix . Histogram::TYPE . self::PROMETHEUS_METRIC_KEYS_SUFFIX,
-                json_encode(['b' => 'sum', 'labelValues' => $data['labelValues']]),
-                json_encode(['b' => $bucketToIncrease, 'labelValues' => $data['labelValues']]),
-                $data['value'],
-                json_encode($metaData),
-            ],
-            2
-        );
+        $metricKey = $this->toMetricKey($data);
+
+        $this->redis
+            ->multi()
+            ->hIncrByFloat(
+                $metricKey,
+                json_encode(array('b' => 'sum', 'labelValues' => $data['labelValues'])),
+                $data['value']
+            )
+            ->hIncrBy(
+                $metricKey,
+                json_encode(array('b' => $bucketToIncrease, 'labelValues' => $data['labelValues'])),
+                1
+            )
+            ->hSetNx($metricKey, '__meta', json_encode($metaData))
+            ->sAdd(self::$prefix . Histogram::TYPE . self::PROMETHEUS_METRIC_KEYS_SUFFIX, $metricKey)
+            ->exec();
     }
 
     /**
@@ -209,33 +206,15 @@ LUA
         unset($metaData['value']);
         unset($metaData['labelValues']);
         unset($metaData['command']);
-        $this->redis->eval(
-            <<<LUA
-local result = redis.call(ARGV[1], KEYS[1], ARGV[2], ARGV[3])
 
-if ARGV[1] == 'hSet' then
-    if result == 1 then
-        redis.call('hSet', KEYS[1], '__meta', ARGV[4])
-        redis.call('sAdd', KEYS[2], KEYS[1])
-    end
-else
-    if result == ARGV[3] then
-        redis.call('hSet', KEYS[1], '__meta', ARGV[4])
-        redis.call('sAdd', KEYS[2], KEYS[1])
-    end
-end
-LUA
-            ,
-            [
-                $this->toMetricKey($data),
-                self::$prefix . Gauge::TYPE . self::PROMETHEUS_METRIC_KEYS_SUFFIX,
-                $this->getRedisCommand($data['command']),
-                json_encode($data['labelValues']),
-                $data['value'],
-                json_encode($metaData),
-            ],
-            2
-        );
+        $metricKey = $this->toMetricKey($data);
+
+        $this->redis->multi();
+        $this->runRedisCommand($data['command'], $metricKey, json_encode($data['labelValues']), $data['value']);
+        $this->redis
+            ->hSetNx($metricKey, '__meta', json_encode($metaData))
+            ->sAdd(self::$prefix . Gauge::TYPE . self::PROMETHEUS_METRIC_KEYS_SUFFIX, $metricKey)
+            ->exec();
     }
 
     /**
@@ -249,26 +228,15 @@ LUA
         unset($metaData['value']);
         unset($metaData['labelValues']);
         unset($metaData['command']);
-        $this->redis->eval(
-            <<<LUA
-local result = redis.call(ARGV[1], KEYS[1], ARGV[3], ARGV[2])
-if result == tonumber(ARGV[2]) then
-    redis.call('hMSet', KEYS[1], '__meta', ARGV[4])
-    redis.call('sAdd', KEYS[2], KEYS[1])
-end
-return result
-LUA
-            ,
-            [
-                $this->toMetricKey($data),
-                self::$prefix . Counter::TYPE . self::PROMETHEUS_METRIC_KEYS_SUFFIX,
-                $this->getRedisCommand($data['command']),
-                $data['value'],
-                json_encode($data['labelValues']),
-                json_encode($metaData),
-            ],
-            2
-        );
+
+        $metricKey = $this->toMetricKey($data);
+
+        $this->redis->multi();
+        $this->runRedisCommand($data['command'], $metricKey, json_encode($data['labelValues']), $data['value']);
+        $this->redis
+            ->hSetNx($metricKey, '__meta', json_encode($metaData))
+            ->sAdd(self::$prefix . Counter::TYPE . self::PROMETHEUS_METRIC_KEYS_SUFFIX, $metricKey)
+            ->exec();
     }
 
     /**
@@ -408,17 +376,17 @@ LUA
 
     /**
      * @param int $cmd
-     * @return string
+     * @return \Redis
      */
-    private function getRedisCommand(int $cmd): string
+    private function runRedisCommand($cmd, ...$args): \Redis
     {
         switch ($cmd) {
             case Adapter::COMMAND_INCREMENT_INTEGER:
-                return 'hIncrBy';
+                return $this->redis->hIncrBy(...$args);
             case Adapter::COMMAND_INCREMENT_FLOAT:
-                return 'hIncrByFloat';
+                return $this->redis->hIncrByFloat(...$args);
             case Adapter::COMMAND_SET:
-                return 'hSet';
+                return $this->redis->hSet(...$args);
             default:
                 throw new InvalidArgumentException("Unknown command");
         }
