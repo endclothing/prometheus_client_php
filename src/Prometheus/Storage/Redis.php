@@ -25,12 +25,13 @@ class Redis implements Adapter
         'read_timeout' => '10',
         'persistent_connections' => false,
         'password' => null,
+        'prefix' => 'PROMETHEUS_',
     ];
 
     /**
      * @var string
      */
-    private static $prefix = 'PROMETHEUS_';
+    private static $prefix;
 
     /**
      * @var array
@@ -54,6 +55,7 @@ class Redis implements Adapter
     public function __construct(array $options = [])
     {
         $this->options = array_merge(self::$defaultOptions, $options);
+        static::setPrefix($this->options['prefix']);
         $this->redis = new \Redis();
     }
 
