@@ -11,10 +11,20 @@ use RuntimeException;
 
 class PushGateway
 {
+    const ALLOWED_TRANSPORT_METHODS = [
+        'http',
+        'https',
+    ];
+
     /**
      * @var string
      */
     private $address;
+
+    /**
+     * @var string
+     */
+    private $transport;
 
     /**
      * @var ClientInterface
@@ -23,13 +33,20 @@ class PushGateway
 
     /**
      * PushGateway constructor.
-     * @param string $address host:port of the push gateway
+     * @param $address string host:port of the push gateway
      * @param ClientInterface $client
+     * @param $transport string transport method of the push gateway
      */
-    public function __construct($address, ClientInterface $client = null)
+    public function __construct($address, ClientInterface $client = null, $transport = 'http')
     {
         $this->address = $address;
         $this->client = $client ?? new Client();
+
+        if (!in_array($transport, self::ALLOWED_TRANSPORT_METHODS)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid transport "%s"', $transport));
+        }
+
+        $this->transport = $transport;
     }
 
     /**
@@ -42,7 +59,7 @@ class PushGateway
      */
     public function push(CollectorRegistry $collectorRegistry, string $job, array $groupingKey = []): void
     {
-        $this->doRequest($collectorRegistry, $job, $groupingKey, 'put');
+        $this->doRequest($collectorRegistry, $job, 'put', $groupingKey);
     }
 
     /**
@@ -55,7 +72,7 @@ class PushGateway
      */
     public function pushAdd(CollectorRegistry $collectorRegistry, string $job, array $groupingKey = []): void
     {
-        $this->doRequest($collectorRegistry, $job, $groupingKey, 'post');
+        $this->doRequest($collectorRegistry, $job, 'post', $groupingKey);
     }
 
     /**
@@ -67,7 +84,7 @@ class PushGateway
      */
     public function delete(string $job, array $groupingKey = []): void
     {
-        $this->doRequest(null, $job, $groupingKey, 'delete');
+        $this->doRequest(null, $job, 'delete', $groupingKey);
     }
 
     /**
@@ -77,13 +94,17 @@ class PushGateway
      * @param string $method
      * @throws GuzzleException
      */
-    private function doRequest(CollectorRegistry $collectorRegistry, string $job, array $groupingKey, $method): void
+    private function doRequest(CollectorRegistry $collectorRegistry, string $job, string $method, array $groupingKey = []): void
     {
-        $url = "http://" . $this->address . "/metrics/job/" . $job;
-        if (!empty($groupingKey)) {
-            foreach ($groupingKey as $label => $value) {
-                $url .= "/" . $label . "/" . $value;
-            }
+        $url = \sprintf(
+            "%s://%s/metrics/job/%s",
+            $this->transport,
+            $this->address,
+            $job
+        );
+
+        foreach ($groupingKey as $label => $value) {
+            $url .= "/" . $label . "/" . $value;
         }
 
         $requestOptions = [
