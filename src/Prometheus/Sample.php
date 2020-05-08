@@ -51,7 +51,7 @@ class Sample
      */
     public function getLabelNames(): array
     {
-        return (array)$this->labelNames;
+        return (array) $this->labelNames;
     }
 
     /**
@@ -59,7 +59,7 @@ class Sample
      */
     public function getLabelValues(): array
     {
-        return (array)$this->labelValues;
+        return (array) $this->labelValues;
     }
 
     /**
