@@ -13,7 +13,7 @@ class RedisTest extends TestCase
     /**
      * @test
      */
-    public function itShouldThrowAnExceptionOnConnectionFailure()
+    public function itShouldThrowAnExceptionOnConnectionFailure(): void
     {
         $redis = new Redis(['host' => '/dev/null']);
 
@@ -27,7 +27,7 @@ class RedisTest extends TestCase
     /**
      * @test
      */
-    public function itShouldThrowExceptionWhenInjectedRedisIsNotConnected()
+    public function itShouldThrowExceptionWhenInjectedRedisIsNotConnected(): void
     {
         $connection = new \Redis();
 

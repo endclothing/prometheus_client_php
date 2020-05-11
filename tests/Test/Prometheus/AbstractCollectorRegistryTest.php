@@ -23,6 +23,8 @@ abstract class AbstractCollectorRegistryTest extends TestCase
      */
     private $renderer;
 
+    abstract public function configureAdapter(): void;
+
     public function setUp(): void
     {
         $this->configureAdapter();
@@ -32,7 +34,7 @@ abstract class AbstractCollectorRegistryTest extends TestCase
     /**
      * @test
      */
-    public function itShouldSaveGauges()
+    public function itShouldSaveGauges(): void
     {
         $registry = new CollectorRegistry($this->adapter);
 
@@ -63,7 +65,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldSaveCounters()
+    public function itShouldSaveCounters(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $metric = $registry->registerCounter('test', 'some_metric', 'this is for testing', ['foo', 'bar']);
@@ -89,7 +91,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldSaveHistograms()
+    public function itShouldSaveHistograms(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $metric = $registry->registerHistogram(
@@ -142,7 +144,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldSaveHistogramsWithoutLabels()
+    public function itShouldSaveHistogramsWithoutLabels(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $metric = $registry->registerHistogram('test', 'some_metric', 'this is for testing');
@@ -183,7 +185,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldIncreaseACounterWithoutNamespace()
+    public function itShouldIncreaseACounterWithoutNamespace(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry
@@ -207,7 +209,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldForbidRegisteringTheSameCounterTwice()
+    public function itShouldForbidRegisteringTheSameCounterTwice(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerCounter('foo', 'metric', 'help');
@@ -219,7 +221,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldForbidRegisteringTheSameCounterWithDifferentLabels()
+    public function itShouldForbidRegisteringTheSameCounterWithDifferentLabels(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerCounter('foo', 'metric', 'help', ["foo", "bar"]);
@@ -231,7 +233,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldForbidRegisteringTheSameHistogramTwice()
+    public function itShouldForbidRegisteringTheSameHistogramTwice(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerHistogram('foo', 'metric', 'help');
@@ -243,7 +245,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldForbidRegisteringTheSameHistogramWithDifferentLabels()
+    public function itShouldForbidRegisteringTheSameHistogramWithDifferentLabels(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerCounter('foo', 'metric', 'help', ["foo", "bar"]);
@@ -255,7 +257,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldForbidRegisteringTheSameGaugeTwice()
+    public function itShouldForbidRegisteringTheSameGaugeTwice(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerGauge('foo', 'metric', 'help');
@@ -267,7 +269,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldForbidRegisteringTheSameGaugeWithDifferentLabels()
+    public function itShouldForbidRegisteringTheSameGaugeWithDifferentLabels(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $registry->registerGauge('foo', 'metric', 'help', ["foo", "bar"]);
@@ -279,7 +281,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldThrowAnExceptionWhenGettingANonExistentMetric()
+    public function itShouldThrowAnExceptionWhenGettingANonExistentMetric(): void
     {
         $registry = new CollectorRegistry($this->adapter);
 
@@ -290,7 +292,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldNotRegisterACounterTwice()
+    public function itShouldNotRegisterACounterTwice(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $counterA = $registry->getOrRegisterCounter("foo", "bar", "Help text");
@@ -302,7 +304,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldNotRegisterAGaugeTwice()
+    public function itShouldNotRegisterAGaugeTwice(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $gaugeA = $registry->getOrRegisterGauge("foo", "bar", "Help text");
@@ -314,7 +316,7 @@ EOF
     /**
      * @test
      */
-    public function itShouldNotRegisterAHistogramTwice()
+    public function itShouldNotRegisterAHistogramTwice(): void
     {
         $registry = new CollectorRegistry($this->adapter);
         $histogramA = $registry->getOrRegisterHistogram("foo", "bar", "Help text");
@@ -322,7 +324,4 @@ EOF
 
         $this->assertSame($histogramA, $histogramB);
     }
-
-
-    abstract public function configureAdapter();
 }

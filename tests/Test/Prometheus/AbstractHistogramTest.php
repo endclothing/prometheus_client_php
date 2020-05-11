@@ -19,17 +19,17 @@ abstract class AbstractHistogramTest extends TestCase
      */
     public $adapter;
 
+    abstract public function configureAdapter(): void;
+
     public function setUp(): void
     {
         $this->configureAdapter();
     }
 
-    abstract public function configureAdapter();
-
     /**
      * @test
      */
-    public function itShouldObserveWithLabels()
+    public function itShouldObserveWithLabels(): void
     {
         $histogram = new Histogram(
             $this->adapter,
@@ -99,7 +99,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldObserveWithoutLabelWhenNoLabelsAreDefined()
+    public function itShouldObserveWithoutLabelWhenNoLabelsAreDefined(): void
     {
         $histogram = new Histogram(
             $this->adapter,
@@ -168,7 +168,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldObserveValuesOfTypeDouble()
+    public function itShouldObserveValuesOfTypeDouble(): void
     {
         $histogram = new Histogram(
             $this->adapter,
@@ -238,7 +238,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldProvideDefaultBuckets()
+    public function itShouldProvideDefaultBuckets(): void
     {
         // .005, .01, .025, .05, .075, .1, .25, .5, .75, 1.0, 2.5, 5.0, 7.5, 10.0
 
@@ -375,7 +375,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldThrowAnExceptionWhenTheBucketSizesAreNotIncreasing()
+    public function itShouldThrowAnExceptionWhenTheBucketSizesAreNotIncreasing(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Histogram buckets must be in increasing order');
@@ -385,7 +385,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldThrowAnExceptionWhenThereIsLessThanOneBucket()
+    public function itShouldThrowAnExceptionWhenThereIsLessThanOneBucket(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Histogram must have at least one bucket');
@@ -395,7 +395,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldThrowAnExceptionWhenThereIsALabelNamedLe()
+    public function itShouldThrowAnExceptionWhenThereIsALabelNamedLe(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Histogram cannot have a label named');
@@ -405,7 +405,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldRejectInvalidMetricsNames()
+    public function itShouldRejectInvalidMetricsNames(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid metric name');
@@ -415,7 +415,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldRejectInvalidLabelNames()
+    public function itShouldRejectInvalidLabelNames(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid label name');
@@ -428,7 +428,7 @@ abstract class AbstractHistogramTest extends TestCase
      *
      * @param mixed $value The label value
      */
-    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($value)
+    public function isShouldAcceptAnySequenceOfBasicLatinCharactersForLabelValues($value): void
     {
         $label = 'foo';
         $histogram = new Histogram($this->adapter, 'test', 'some_metric', 'help', [$label], [1]);
@@ -455,7 +455,7 @@ abstract class AbstractHistogramTest extends TestCase
     /**
      * @test
      */
-    public function itShouldBeAbleToGenerateExponentialBucketsGivenSpecificBounds()
+    public function itShouldBeAbleToGenerateExponentialBucketsGivenSpecificBounds(): void
     {
         $start = 0.05;
         $growthFactor = 1.5;
@@ -487,7 +487,7 @@ abstract class AbstractHistogramTest extends TestCase
      * @return array
      * @see isShouldAcceptArbitraryLabelValues
      */
-    public function labelValuesDataProvider()
+    public function labelValuesDataProvider(): array
     {
         $cases = [];
         // Basic Latin

@@ -18,7 +18,7 @@ class BlackBoxTest extends TestCase
      */
     private $adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = getenv('ADAPTER');
         $this->client = new Client(['base_uri' => 'http://nginx:80/']);
@@ -28,7 +28,7 @@ class BlackBoxTest extends TestCase
     /**
      * @test
      */
-    public function gaugesShouldBeOverwritten()
+    public function gaugesShouldBeOverwritten(): void
     {
         $start = microtime(true);
         $promises = [
@@ -58,7 +58,7 @@ class BlackBoxTest extends TestCase
     /**
      * @test
      */
-    public function countersShouldIncrementAtomically()
+    public function countersShouldIncrementAtomically(): void
     {
         $start = microtime(true);
         $promises = [];
@@ -81,7 +81,7 @@ class BlackBoxTest extends TestCase
     /**
      * @test
      */
-    public function histogramsShouldIncrementAtomically()
+    public function histogramsShouldIncrementAtomically(): void
     {
         $start = microtime(true);
         $promises = [

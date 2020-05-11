@@ -13,7 +13,7 @@ class BlackBoxPushGatewayTest extends TestCase
     /**
      * @test
      */
-    public function pushGatewayShouldWork()
+    public function pushGatewayShouldWork(): void
     {
         $adapter = new APC();
         $registry = new CollectorRegistry($adapter);

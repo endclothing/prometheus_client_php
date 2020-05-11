@@ -15,7 +15,7 @@ interface Adapter
     /**
      * @return MetricFamilySamples[]
      */
-    public function collect();
+    public function collect(): array;
 
     /**
      * @param array $data

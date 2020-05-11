@@ -10,8 +10,7 @@ use Test\Prometheus\AbstractCounterTest;
  */
 class CounterTest extends AbstractCounterTest
 {
-
-    public function configureAdapter()
+    public function configureAdapter(): void
     {
         $this->adapter = new InMemory();
         $this->adapter->flushMemory();

@@ -11,7 +11,7 @@ use Test\Prometheus\AbstractGaugeTest;
  */
 class GaugeTest extends AbstractGaugeTest
 {
-    public function configureAdapter()
+    public function configureAdapter(): void
     {
         $this->adapter = new Redis(['host' => REDIS_HOST]);
         $this->adapter->flushRedis();

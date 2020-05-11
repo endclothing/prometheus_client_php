@@ -11,7 +11,7 @@ use Test\Prometheus\AbstractGaugeTest;
  */
 class GaugeWithPrefixTest extends AbstractGaugeTest
 {
-    public function configureAdapter()
+    public function configureAdapter(): void
     {
         $connection = new \Redis();
         $connection->connect(REDIS_HOST);
