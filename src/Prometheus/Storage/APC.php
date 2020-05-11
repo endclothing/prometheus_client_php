@@ -10,7 +10,7 @@ use RuntimeException;
 
 class APC implements Adapter
 {
-    const PROMETHEUS_PREFIX = 'prom';
+    private const PROMETHEUS_PREFIX = 'prom';
 
     /**
      * @return MetricFamilySamples[]

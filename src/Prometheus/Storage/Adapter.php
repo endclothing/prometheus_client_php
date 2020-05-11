@@ -8,9 +8,9 @@ use Prometheus\MetricFamilySamples;
 
 interface Adapter
 {
-    const COMMAND_INCREMENT_INTEGER = 1;
-    const COMMAND_INCREMENT_FLOAT = 2;
-    const COMMAND_SET = 3;
+    public const COMMAND_INCREMENT_INTEGER = 1;
+    public const COMMAND_INCREMENT_FLOAT = 2;
+    public const COMMAND_SET = 3;
 
     /**
      * @return MetricFamilySamples[]

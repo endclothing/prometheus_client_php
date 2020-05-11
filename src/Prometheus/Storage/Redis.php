@@ -13,7 +13,7 @@ use Prometheus\MetricFamilySamples;
 
 class Redis implements Adapter
 {
-    const PROMETHEUS_METRIC_KEYS_SUFFIX = '_METRIC_KEYS';
+    private const PROMETHEUS_METRIC_KEYS_SUFFIX = '_METRIC_KEYS';
 
     /**
      * @var array

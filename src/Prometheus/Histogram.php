@@ -9,7 +9,7 @@ use Prometheus\Storage\Adapter;
 
 class Histogram extends Collector
 {
-    const TYPE = 'histogram';
+    public const TYPE = 'histogram';
 
     /**
      * @var array|null

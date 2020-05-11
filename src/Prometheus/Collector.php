@@ -9,7 +9,7 @@ use Prometheus\Storage\Adapter;
 
 abstract class Collector
 {
-    const RE_METRIC_LABEL_NAME = '/^[a-zA-Z_:][a-zA-Z0-9_:]*$/';
+    protected const RE_METRIC_LABEL_NAME = '/^[a-zA-Z_:][a-zA-Z0-9_:]*$/';
 
     /**
      * @var Adapter

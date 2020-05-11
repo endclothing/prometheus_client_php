@@ -6,7 +6,7 @@ namespace Prometheus;
 
 class RenderTextFormat
 {
-    const MIME_TYPE = 'text/plain; version=0.0.4';
+    public const MIME_TYPE = 'text/plain; version=0.0.4';
 
     /**
      * @param MetricFamilySamples[] $metrics

@@ -8,7 +8,7 @@ use Prometheus\Storage\Adapter;
 
 class Gauge extends Collector
 {
-    const TYPE = 'gauge';
+    public const TYPE = 'gauge';
 
     /**
      * @param double $value e.g. 123
