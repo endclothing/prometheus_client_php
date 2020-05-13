@@ -45,4 +45,25 @@ class Counter extends Collector
             ]
         );
     }
+
+    /**
+     * @param int $count e.g. 2
+     * @param array $labels e.g. ['status', 'opcode']
+     */
+    public function set($count, array $labels = []): void
+    {
+        $this->assertLabelsAreDefinedCorrectly($labels);
+
+        $this->storageAdapter->updateCounter(
+            [
+                'name' => $this->getName(),
+                'help' => $this->getHelp(),
+                'type' => $this->getType(),
+                'labelNames' => $this->getLabelNames(),
+                'labelValues' => $labels,
+                'value' => $count,
+                'command' => Adapter::COMMAND_SET,
+            ]
+        );
+    }
 }
