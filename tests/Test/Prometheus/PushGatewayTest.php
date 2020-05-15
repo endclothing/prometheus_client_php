@@ -18,7 +18,7 @@ class PushGatewayTest extends TestCase
      *
      * @doesNotPerformAssertions
      */
-    public function validResponseShouldNotThrowException(): void
+    public function validResponseShouldNotThrowException()
     {
         $mockedCollectorRegistry = $this->createMock(CollectorRegistry::class);
         $mockedCollectorRegistry->method('getMetricFamilySamples')->with()->willReturn([
@@ -41,7 +41,7 @@ class PushGatewayTest extends TestCase
      *
      * @doesNotPerformAnyAssertions
      */
-    public function invalidResponseShouldThrowRuntimeException(): void
+    public function invalidResponseShouldThrowRuntimeException()
     {
         $this->expectException(\RuntimeException::class);
 
@@ -64,7 +64,7 @@ class PushGatewayTest extends TestCase
     /**
      * @test
      */
-    public function clientGetsDefinedIfNotSpecified(): void
+    public function clientGetsDefinedIfNotSpecified()
     {
         $this->expectException(\RuntimeException::class);
 

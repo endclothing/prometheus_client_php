@@ -73,7 +73,7 @@ class Redis implements Adapter
     /**
      * @param array $options
      */
-    public static function setDefaultOptions(array $options): void
+    public static function setDefaultOptions(array $options)
     {
         self::$defaultOptions = array_merge(self::$defaultOptions, $options);
     }
@@ -81,7 +81,7 @@ class Redis implements Adapter
     /**
      * @param $prefix
      */
-    public static function setPrefix($prefix): void
+    public static function setPrefix($prefix)
     {
         self::$prefix = $prefix;
     }
@@ -89,7 +89,7 @@ class Redis implements Adapter
     /**
      * @throws StorageException
      */
-    public function flushRedis(): void
+    public function flushRedis()
     {
         $this->openConnection();
         $this->redis->flushAll();
@@ -116,7 +116,7 @@ class Redis implements Adapter
     /**
      * @throws StorageException
      */
-    private function openConnection(): void
+    private function openConnection()
     {
         if ($this->connectionInitialized === true) {
             return;
@@ -162,7 +162,7 @@ class Redis implements Adapter
      * @param array $data
      * @throws StorageException
      */
-    public function updateHistogram(array $data): void
+    public function updateHistogram(array $data)
     {
         $this->openConnection();
         $bucketToIncrease = '+Inf';
@@ -202,7 +202,7 @@ LUA
      * @param array $data
      * @throws StorageException
      */
-    public function updateGauge(array $data): void
+    public function updateGauge(array $data)
     {
         $this->openConnection();
         $metaData = $data;
@@ -242,7 +242,7 @@ LUA
      * @param array $data
      * @throws StorageException
      */
-    public function updateCounter(array $data): void
+    public function updateCounter(array $data)
     {
         $this->openConnection();
         $metaData = $data;

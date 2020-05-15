@@ -21,7 +21,7 @@ class Counter extends Collector
     /**
      * @param array $labels e.g. ['status', 'opcode']
      */
-    public function inc(array $labels = []): void
+    public function inc(array $labels = [])
     {
         $this->incBy(1, $labels);
     }
@@ -30,7 +30,7 @@ class Counter extends Collector
      * @param int $count e.g. 2
      * @param array $labels e.g. ['status', 'opcode']
      */
-    public function incBy($count, array $labels = []): void
+    public function incBy($count, array $labels = [])
     {
         $this->assertLabelsAreDefinedCorrectly($labels);
 
