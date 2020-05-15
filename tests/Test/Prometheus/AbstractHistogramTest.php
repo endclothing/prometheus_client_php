@@ -435,7 +435,7 @@ abstract class AbstractHistogramTest extends TestCase
         $histogram->observe(1, [$value]);
 
         $metrics = $this->adapter->collect();
-        $this->assertIsArray($metrics);
+        $this->assertTrue(is_array($metrics));
         $this->assertCount(1, $metrics);
         $this->assertContainsOnlyInstancesOf(MetricFamilySamples::class, $metrics);
 
