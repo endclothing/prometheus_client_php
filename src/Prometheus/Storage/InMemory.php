@@ -25,7 +25,7 @@ class InMemory implements Adapter
         return $metrics;
     }
 
-    public function flushMemory(): void
+    public function flushMemory()
     {
         $this->counters = [];
         $this->gauges = [];
@@ -142,7 +142,7 @@ class InMemory implements Adapter
      * @param array $data
      * @return void
      */
-    public function updateHistogram(array $data): void
+    public function updateHistogram(array $data)
     {
         // Initialize the sum
         $metaKey = $this->metaKey($data);
@@ -178,7 +178,7 @@ class InMemory implements Adapter
     /**
      * @param array $data
      */
-    public function updateGauge(array $data): void
+    public function updateGauge(array $data)
     {
         $metaKey = $this->metaKey($data);
         $valueKey = $this->valueKey($data);
@@ -201,7 +201,7 @@ class InMemory implements Adapter
     /**
      * @param array $data
      */
-    public function updateCounter(array $data): void
+    public function updateCounter(array $data)
     {
         $metaKey = $this->metaKey($data);
         $valueKey = $this->valueKey($data);
@@ -282,7 +282,7 @@ class InMemory implements Adapter
     /**
      * @param array $samples
      */
-    private function sortSamples(array &$samples): void
+    private function sortSamples(array &$samples)
     {
         usort($samples, function ($a, $b) {
             return strcmp(implode("", $a['labelValues']), implode("", $b['labelValues']));

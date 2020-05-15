@@ -23,7 +23,7 @@ abstract class AbstractCollectorRegistryTest extends TestCase
      */
     private $renderer;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->configureAdapter();
         $this->renderer = new RenderTextFormat();

@@ -26,7 +26,7 @@ class APC implements Adapter
     /**
      * @param array $data
      */
-    public function updateHistogram(array $data): void
+    public function updateHistogram(array $data)
     {
         // Initialize the sum
         $sumKey = $this->histogramBucketValueKey($data, 'sum');
@@ -62,7 +62,7 @@ class APC implements Adapter
     /**
      * @param array $data
      */
-    public function updateGauge(array $data): void
+    public function updateGauge(array $data)
     {
         $valueKey = $this->valueKey($data);
         if ($data['command'] == Adapter::COMMAND_SET) {
@@ -85,7 +85,7 @@ class APC implements Adapter
     /**
      * @param array $data
      */
-    public function updateCounter(array $data): void
+    public function updateCounter(array $data)
     {
         $new = apcu_add($this->valueKey($data), 0);
         if ($new) {
@@ -97,7 +97,7 @@ class APC implements Adapter
     /**
      * @return void
      */
-    public function flushAPC(): void
+    public function flushAPC()
     {
         apcu_clear_cache();
     }
@@ -312,7 +312,7 @@ class APC implements Adapter
     /**
      * @param array $samples
      */
-    private function sortSamples(array &$samples): void
+    private function sortSamples(array &$samples)
     {
         usort($samples, function ($a, $b) {
             return strcmp(implode("", $a['labelValues']), implode("", $b['labelValues']));
