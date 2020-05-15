@@ -1,6 +1,6 @@
 # A prometheus client library written in PHP
 
-[![CircleCI](https://circleci.com/gh/endclothing/prometheus_client_php/tree/master.svg?style=shield)](https://circleci.com/gh/endclothing/prometheus_client_php/tree/master)
+**This is a fork specifically made for intfood due to PHP 7.2 and Guzzle 6 dependencies the original version had. If you have any plans to use this thing for your PHP services, please use the original repository.**
 
 This library uses Redis or APCu to do the client side aggregation.
 If using Redis, we recommend to run a local Redis instance next to your PHP workers.
