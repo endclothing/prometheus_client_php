@@ -95,7 +95,7 @@ abstract class Collector
     /**
      * @param $labels
      */
-    protected function assertLabelsAreDefinedCorrectly($labels): void
+    protected function assertLabelsAreDefinedCorrectly($labels)
     {
         if (count($labels) != count($this->labels)) {
             throw new InvalidArgumentException(sprintf('Labels are not defined correctly: %s', print_r($labels, true)));

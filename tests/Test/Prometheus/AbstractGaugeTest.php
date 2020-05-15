@@ -19,7 +19,7 @@ abstract class AbstractGaugeTest extends TestCase
      */
     public $adapter;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->configureAdapter();
     }
