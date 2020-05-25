@@ -3,9 +3,8 @@
 namespace Test\Prometheus;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Message\Response;
+use GuzzleHttp\Ring\Client\MockHandler;
 use PHPUnit\Framework\TestCase;
 use Prometheus\CollectorRegistry;
 use Prometheus\MetricFamilySamples;
@@ -25,12 +24,8 @@ class PushGatewayTest extends TestCase
             $this->createMock(MetricFamilySamples::class)
         ]);
 
-        $mockHandler = new MockHandler([
-            new Response(200),
-            new Response(202),
-        ]);
-        $handler = HandlerStack::create($mockHandler);
-        $client = new Client(['handler' => $handler]);
+        $mockHandler = new MockHandler(['status' => 200]);
+        $client = new Client(['handler' => $mockHandler]);
 
         $pushGateway = new PushGateway('http://foo.bar', $client);
         $pushGateway->push($mockedCollectorRegistry, 'foo');
@@ -50,12 +45,13 @@ class PushGatewayTest extends TestCase
             $this->createMock(MetricFamilySamples::class)
         ]);
 
+
         $mockHandler = new MockHandler([
             new Response(201),
             new Response(300),
         ]);
-        $handler = HandlerStack::create($mockHandler);
-        $client = new Client(['handler' => $handler]);
+
+        $client = new Client(['handler' => $mockHandler]);
 
         $pushGateway = new PushGateway('http://foo.bar', $client);
         $pushGateway->push($mockedCollectorRegistry, 'foo');

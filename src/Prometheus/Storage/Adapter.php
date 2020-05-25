@@ -34,4 +34,9 @@ interface Adapter
      * @return void
      */
     public function updateCounter(array $data);
+
+    /**
+     * @return void
+     */
+    public function flush();
 }

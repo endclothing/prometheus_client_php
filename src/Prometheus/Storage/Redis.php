@@ -89,7 +89,7 @@ class Redis implements Adapter
     /**
      * @throws StorageException
      */
-    public function flushRedis()
+    public function flush()
     {
         $this->openConnection();
         $this->redis->flushAll();

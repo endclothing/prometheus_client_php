@@ -14,6 +14,6 @@ class CollectorRegistryTest extends AbstractCollectorRegistryTest
     public function configureAdapter()
     {
         $this->adapter = new APC();
-        $this->adapter->flushAPC();
+        $this->adapter->flush();
     }
 }

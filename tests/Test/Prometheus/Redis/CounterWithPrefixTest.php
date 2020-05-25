@@ -19,6 +19,6 @@ class CounterWithPrefixTest extends AbstractCounterTest
         $connection->setOption(\Redis::OPT_PREFIX, 'prefix:');
 
         $this->adapter = Redis::fromExistingConnection($connection);
-        $this->adapter->flushRedis();
+        $this->adapter->flush();
     }
 }
