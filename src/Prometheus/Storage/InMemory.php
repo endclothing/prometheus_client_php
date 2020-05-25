@@ -25,7 +25,7 @@ class InMemory implements Adapter
         return $metrics;
     }
 
-    public function flushMemory()
+    public function flush()
     {
         $this->counters = [];
         $this->gauges = [];

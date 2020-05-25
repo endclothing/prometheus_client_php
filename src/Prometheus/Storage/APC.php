@@ -97,7 +97,7 @@ class APC implements Adapter
     /**
      * @return void
      */
-    public function flushAPC()
+    public function flush()
     {
         apcu_clear_cache();
     }

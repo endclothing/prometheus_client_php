@@ -21,7 +21,7 @@ class RedisTest extends TestCase
         $this->expectExceptionMessage("Can't connect to Redis server");
 
         $redis->collect();
-        $redis->flushRedis();
+        $redis->flush();
     }
 
     /**
