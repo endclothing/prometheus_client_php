@@ -38,6 +38,7 @@ class CollectorRegistry
 
     /**
      * CollectorRegistry constructor.
+     *
      * @param Adapter $redisAdapter
      */
     public function __construct(Adapter $redisAdapter)
@@ -236,6 +237,14 @@ class CollectorRegistry
             $histogram = $this->registerHistogram($namespace, $name, $help, $labels, $buckets);
         }
         return $histogram;
+    }
+
+    public function flush()
+    {
+        $this->storageAdapter->flush();
+        $this->counters = [];
+        $this->gauges = [];
+        $this->histograms = [];
     }
 
     /**
