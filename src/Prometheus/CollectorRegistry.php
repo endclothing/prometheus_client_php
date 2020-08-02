@@ -38,7 +38,7 @@ class CollectorRegistry
 
     /**
      * CollectorRegistry constructor.
-     * @param Adapter $redisAdapter
+     * @param Adapter $adapter
      */
     public function __construct(Adapter $adapter)
     {
