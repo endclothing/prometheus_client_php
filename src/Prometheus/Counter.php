@@ -29,8 +29,9 @@ class Counter extends Collector
     /**
      * @param int $count e.g. 2
      * @param array $labels e.g. ['status', 'opcode']
+     * @param int|null $timestamp
      */
-    public function incBy($count, array $labels = []): void
+    public function incBy($count, array $labels = [], int $timestamp = null): void
     {
         $this->assertLabelsAreDefinedCorrectly($labels);
 
@@ -43,6 +44,7 @@ class Counter extends Collector
                 'labelValues' => $labels,
                 'value' => $count,
                 'command' => Adapter::COMMAND_INCREMENT_INTEGER,
+                'timestamp' => $timestamp
             ]
         );
     }

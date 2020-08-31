@@ -27,6 +27,11 @@ class Sample
     private $value;
 
     /**
+     * @var ?int
+     */
+    private $timestamp;
+
+    /**
      * Sample constructor.
      * @param array $data
      */
@@ -36,6 +41,7 @@ class Sample
         $this->labelNames = $data['labelNames'];
         $this->labelValues = $data['labelValues'];
         $this->value = $data['value'];
+        $this->timestamp = (int)($data['timestamp'] ?? 0) ?: null;
     }
 
     /**
@@ -67,7 +73,7 @@ class Sample
      */
     public function getValue(): string
     {
-        return (string) $this->value;
+        return (string)$this->value;
     }
 
     /**
@@ -76,5 +82,21 @@ class Sample
     public function hasLabelNames(): bool
     {
         return !empty($this->labelNames);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTimestamp(): ?int
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTimestamp(): bool
+    {
+        return (bool)$this->timestamp;
     }
 }
