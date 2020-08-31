@@ -125,11 +125,13 @@ class InMemory implements Adapter
             foreach ($metric['samples'] as $key => $value) {
                 $parts = explode(':', $key);
                 $labelValues = $parts[2];
+                $timestamp = $parts[3] ?? false;
                 $data['samples'][] = [
                     'name' => $metaData['name'],
                     'labelNames' => [],
                     'labelValues' => $this->decodeLabelValues($labelValues),
                     'value' => $value,
+                    'timestamp' => $timestamp
                 ];
             }
             $this->sortSamples($data['samples']);
@@ -261,6 +263,7 @@ class InMemory implements Adapter
             $data['type'],
             $data['name'],
             $this->encodeLabelValues($data['labelValues']),
+            $data['timestamp'] ?? false,
             'value'
         ]);
     }

@@ -37,6 +37,7 @@ class RenderTextFormat
      */
     private function renderSample(MetricFamilySamples $metric, Sample $sample): string
     {
+        $result = null;
         $escapedLabels = [];
 
         $labelNames = $metric->getLabelNames();
@@ -45,9 +46,14 @@ class RenderTextFormat
             foreach ($labels as $labelName => $labelValue) {
                 $escapedLabels[] = $labelName . '="' . $this->escapeLabelValue($labelValue) . '"';
             }
-            return $sample->getName() . '{' . implode(',', $escapedLabels) . '} ' . $sample->getValue();
+            $result = $sample->getName() . '{' . implode(',', $escapedLabels) . '} ' . $sample->getValue();
+        } else {
+            $result = $sample->getName() . ' ' . $sample->getValue();
         }
-        return $sample->getName() . ' ' . $sample->getValue();
+        if ($sample->hasTimestamp()) {
+            $result .= ' ' . $sample->getTimestamp() * 1000;
+        }
+        return $result;
     }
 
     /**

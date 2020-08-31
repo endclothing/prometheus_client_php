@@ -13,8 +13,9 @@ class Gauge extends Collector
     /**
      * @param double $value e.g. 123
      * @param array $labels e.g. ['status', 'opcode']
+     * @param int|null $timestamp
      */
-    public function set(float $value, array $labels = []): void
+    public function set(float $value, array $labels = [], int $timestamp = null): void
     {
         $this->assertLabelsAreDefinedCorrectly($labels);
 
@@ -27,6 +28,7 @@ class Gauge extends Collector
                 'labelValues' => $labels,
                 'value' => $value,
                 'command' => Adapter::COMMAND_SET,
+                'timestamp' => $timestamp
             ]
         );
     }
@@ -50,8 +52,9 @@ class Gauge extends Collector
     /**
      * @param $value
      * @param array $labels
+     * @param int|null $timestamp
      */
-    public function incBy($value, array $labels = []): void
+    public function incBy($value, array $labels = [], int $timestamp = null): void
     {
         $this->assertLabelsAreDefinedCorrectly($labels);
 
@@ -64,6 +67,7 @@ class Gauge extends Collector
                 'labelValues' => $labels,
                 'value' => $value,
                 'command' => Adapter::COMMAND_INCREMENT_FLOAT,
+                'timestamp' => $timestamp
             ]
         );
     }
