@@ -99,6 +99,4 @@ class Sample
     {
         return (bool)$this->timestamp;
     }
-
-
 }
