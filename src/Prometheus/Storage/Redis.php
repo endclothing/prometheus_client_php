@@ -147,12 +147,12 @@ class Redis implements Adapter
             if ($this->options['persistent_connections']) {
                 return $this->redis->pconnect(
                     $this->options['host'],
-                    $this->options['port'],
-                    $this->options['timeout']
+                    (int)$this->options['port'],
+                    (float)$this->options['timeout']
                 );
             }
 
-            return $this->redis->connect($this->options['host'], $this->options['port'], $this->options['timeout']);
+            return $this->redis->connect($this->options['host'], (int)$this->options['port'], (float)$this->options['timeout']);
         } catch (\RedisException $e) {
             return false;
         }

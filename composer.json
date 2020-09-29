@@ -1,5 +1,5 @@
 {
-    "name": "endclothing/prometheus_client_php",
+    "name": "satariall/prometheus_client_php",
     "description": "Prometheus instrumentation library for PHP applications.",
     "type": "library",
     "license": "Apache-2.0",
@@ -15,7 +15,7 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.0.1",
         "symfony/polyfill-apcu": "^1.6"
     },
     "require-dev": {
