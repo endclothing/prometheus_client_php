@@ -123,9 +123,6 @@ class Redis implements Adapter
         }
 
         $connectionStatus = $this->connectToServer();
-        if ($connectionStatus === false) {
-            throw new StorageException("Can't connect to Redis server", 0);
-        }
 
         if ($this->options['password']) {
             $this->redis->auth($this->options['password']);
@@ -140,6 +137,8 @@ class Redis implements Adapter
 
     /**
      * @return bool
+     *
+     * @throws StorageException
      */
     private function connectToServer(): bool
     {
@@ -154,7 +153,7 @@ class Redis implements Adapter
 
             return $this->redis->connect($this->options['host'], $this->options['port'], $this->options['timeout']);
         } catch (\RedisException $e) {
-            return false;
+            throw new StorageException("Can't connect to Redis server", 0, $e);
         }
     }
 
