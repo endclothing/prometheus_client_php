@@ -112,13 +112,12 @@ class CollectorRegistry
      * @throws MetricsRegistrationException
      */
     public function getOrRegisterGauge($namespace, $name, $help, $labels = []): Gauge
-    {
-        try {
-            $gauge = $this->getGauge($namespace, $name);
-        } catch (MetricNotFoundException $e) {
-            $gauge = $this->registerGauge($namespace, $name, $help, $labels);
+    {   
+        $metricIdentifier = self::metricIdentifier($namespace, $name);
+        if (!isset($this->gauges[$metricIdentifier])) {
+            return $this->registerGauge($namespace, $name, $help, $labels);
         }
-        return $gauge;
+        return $this->gauges[$metricIdentifier];
     }
 
     /**
@@ -170,12 +169,11 @@ class CollectorRegistry
      */
     public function getOrRegisterCounter($namespace, $name, $help, $labels = []): Counter
     {
-        try {
-            $counter = $this->getCounter($namespace, $name);
-        } catch (MetricNotFoundException $e) {
-            $counter = $this->registerCounter($namespace, $name, $help, $labels);
+        $metricIdentifier = self::metricIdentifier($namespace, $name);
+        if (!isset($this->counters[$metricIdentifier])) {
+            return $this->registerCounter($namespace, $name, $help, $labels);
         }
-        return $counter;
+        return $this->counters[$metricIdentifier];
     }
 
     /**
