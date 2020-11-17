@@ -112,7 +112,7 @@ class CollectorRegistry
      * @throws MetricsRegistrationException
      */
     public function getOrRegisterGauge($namespace, $name, $help, $labels = []): Gauge
-    {   
+    {
         $metricIdentifier = self::metricIdentifier($namespace, $name);
         if (!isset($this->gauges[$metricIdentifier])) {
             return $this->registerGauge($namespace, $name, $help, $labels);
