@@ -23,6 +23,7 @@ composer require endclothing/prometheus_client_php
 ## Usage
 
 A simple counter:
+
 ```php
 \Prometheus\CollectorRegistry::getDefault()
     ->getOrRegisterCounter('', 'some_quick_counter', 'just a quick measurement')
@@ -30,6 +31,7 @@ A simple counter:
 ```
 
 Write some enhanced metrics:
+
 ```php
 $registry = \Prometheus\CollectorRegistry::getDefault();
 
@@ -44,6 +46,7 @@ $histogram->observe(3.5, ['blue']);
 ```
 
 Manually register and retrieve metrics (these steps are combined in the `getOrRegister...` methods):
+
 ```php
 $registry = \Prometheus\CollectorRegistry::getDefault();
 
@@ -56,6 +59,7 @@ $counterB->incBy(2, ['red']);
 ```
 
 Expose the metrics:
+
 ```php
 $registry = \Prometheus\CollectorRegistry::getDefault();
 
@@ -67,6 +71,7 @@ echo $result;
 ```
 
 Change the Redis options (the example shows the defaults):
+
 ```php
 \Prometheus\Storage\Redis::setDefaultOptions(
     [
@@ -81,6 +86,7 @@ Change the Redis options (the example shows the defaults):
 ```
 
 Using the InMemory storage:
+
 ```php
 $registry = new CollectorRegistry(new InMemory());
 
@@ -94,11 +100,13 @@ $result = $renderer->render($registry->getMetricFamilySamples());
 ### Advanced Usage
 
 #### Advanced Histogram Usage
+
 On passing an empty array for the bucket parameter on instantiation, a set of default buckets will be used instead.
 Whilst this is a good base for a typical web application, there is named constructor to assist in the generation of
 exponential / geometric buckets.
 
 Eg:
+
 ```
 Histogram::exponentialBuckets(0.05, 1.5, 10);
 ```
@@ -111,18 +119,20 @@ Also look at the [examples](examples).
 
 ### Dependencies
 
-* PHP ^7.3
-* PHP Redis extension
-* PHP APCu extension
-* [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
-* Redis
+- PHP ^7.2
+- PHP Redis extension
+- PHP APCu extension
+- [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
+- Redis
 
 Start a Redis instance:
+
 ```
 docker-compose up Redis
 ```
 
 Run the tests:
+
 ```
 composer install
 
@@ -134,9 +144,11 @@ composer install
 ## Black box testing
 
 Just start the nginx, fpm & Redis setup with docker-compose:
+
 ```
 docker-compose up
 ```
+
 Pick the adapter you want to test.
 
 ```
