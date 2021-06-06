@@ -111,7 +111,7 @@ Also look at the [examples](examples).
 
 ### Dependencies
 
-* PHP ^7.3
+* PHP ^7.2
 * PHP Redis extension
 * PHP APCu extension
 * [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
